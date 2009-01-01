@@ -22,7 +22,7 @@ body {
 .hero-text {
     text-align: center;
     position: absolute;
-    color:rgba(235, 185, 21, 0.884);
+    color:#fff;
     background-color: rgb(34, 80, 8);
     border-radius: 20px;
     padding: 15px;
@@ -30,6 +30,10 @@ body {
     left: 50%;
     transform: translate(-50%);
     opacity: 0.75;
+}
+.hero-text .btn {
+    border-radius: 20px;
+    color: rgb(34, 80, 8);
 }
 .hero-text h3 {
     font-size: 1.8rem;
