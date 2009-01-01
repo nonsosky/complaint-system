@@ -45,7 +45,13 @@ module.exports = function (passport, User) {
                     let phoneNo = item.phoneNo;
                     logPhoneNos.push(phoneNo);
 
-                    send({to: phoneNo, text: 'The Admin is currently online'});
+                    send({to: phoneNo, text: 'The Admin is currently online'})
+                      .then(info=>{
+                       console.log(info);
+                      })
+                      .catch(err=>{
+                        console.log(err);
+                      });
 
                   }
                 }
