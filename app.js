@@ -8,12 +8,9 @@ const bodyParser = require("body-parser");
 //load local files
 const connect = require("./server/db/db_connect");
 
-//Load department repos
-const departmentRepository = require("./server/repository/DepartmentRepos");
-
 //load routes
 const student = require('./routes/student');
-const mycomplaints = require('./routes/mycomplaint');
+
 
 connect().then(conn =>{
 console.log("connected to db")
@@ -60,16 +57,9 @@ app.use((req, res, next) => {
 //homepage route
 app.get('/',(req, res) => {
     console.log(req.user)
-    departmentRepository.findMany([])
-     .then(departments => {
-         console.log(departments);
          res.render('index', {
             pageTitle: 'Student Complaint System',
-            departments
         });
-     },err=>{
-         console.log(err);
-     });
 });
 
 //Logout route
@@ -83,7 +73,7 @@ app.get('/logout', (req, res) =>{
 
 //Use routes
 app.use('/student', student);
-app.use('/mycomplaints', mycomplaints);
+
 
 app.listen(port, () => {
     console.log(`server up on port ${port}`);

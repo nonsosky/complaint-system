@@ -55,13 +55,11 @@ CREATE TABLE `post` (
     `reply`     VARCHAR(500),
     `complaint_id`  INT(3),
     `student_id`    INT(3),
-    `admin_id`      INT(3),
     `user_type`     INT(3) DEFAULT 0,
 
     CONSTRAINT `post_pk` PRIMARY KEY (`id`),
     CONSTRAINT `post_complaints_FK` FOREIGN KEY (`complaint_id`) REFERENCES `complaints` (`id`),
-    CONSTRAINT `post_student_FK` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`),
-    CONSTRAINT `post_admin_FK` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`id`)
+    CONSTRAINT `post_student_FK` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`)
 );
 
 
@@ -83,7 +81,7 @@ VALUES ("2019-03-03", 1, "Cult threat"),
 
 -- Store post data into db
 -- Note user_type = 0 (admin) user_type = 1 (student)
-INSERT INTO `post` (`createdAt`, `student_id`, `admin_id`, `reply`, `complaint_id`, `user_type`)
-VALUES ("2019-03-03", 1, 1, "Is it around school premises?", 1, 0),
-       ("2019-03-03", 1, 1, "Yes", 1, 1);
+INSERT INTO `post` (`createdAt`, `student_id`, `reply`, `complaint_id`, `user_type`)
+VALUES ("2019-03-03", 1, "Is it around school premises?", 1, 0),
+       ("2019-03-03", 1, "Yes", 1, 1);
 

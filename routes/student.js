@@ -4,10 +4,15 @@ const complaintsRepository = require('../server/repository/ComplaintsRepos');
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 
+//Load department repos
+const departmentRepository = require("../server/repository/DepartmentRepos");
+const postRepository = require("../server/repository/PostRepos");
 
+//-- local middlewares
+const { ensureAuthenticated } = require('../server/config/auth');
 
 //complaints route
-router.post('/make/complaints', (req, res) =>{
+router.post('/make/complaints', (req, res) => {
     let year, month, day, nDate;
     nDate = new Date();
 
@@ -17,21 +22,21 @@ router.post('/make/complaints', (req, res) =>{
 
     let newComplaint = {
         complaint: req.body.complaints,
-        createdAt: year+'/'+month+'/'+day,
+        createdAt: year + '/' + month + '/' + day,
         student_id: req.user.id
     };
 
     console.log(newComplaint);
 
     complaintsRepository.insert(newComplaint)
-      .then(complaint =>{
-          req.flash('success', 'Complaint submitted successfully');
-          res.redirect('/');
-      },err=>{
-          console.log(err);
-          req.flash('error', 'Unable to make complaint');
-          res.redirect('/');
-      });
+        .then(complaint => {
+            req.flash('success', 'Complaint submitted successfully');
+            res.redirect('/');
+        }, err => {
+            console.log(err);
+            req.flash('error', 'Unable to make complaint');
+            res.redirect('/');
+        });
 });
 
 
@@ -46,8 +51,21 @@ router.post('/signin', (req, res, next) => {
     })(req, res, next);
 });
 
+router.get('/signup', (req, res) => {
+    departmentRepository.findMany([])
+        .then(departments => {
+            console.log(departments);
+            res.render('student/signup', {
+                pageTitle: 'Student Complaint System',
+                departments
+            });
+        }, err => {
+            console.log(err);
+        });
+})
+
 //Signup student route
-router.post('/register', (req, res) => {
+router.post('/signup', (req, res) => {
     let newStudent = {
         lastName: req.body.lastname,
         firstName: req.body.firstname,
@@ -86,6 +104,65 @@ router.post('/register', (req, res) => {
             }
         });
 
+});
+
+
+router.get('/mycomplaint', ensureAuthenticated, (req, res) => {
+    complaintsRepository.findById(1)
+        .then(complaint => {
+            postRepository.findMany([{ student_id: req.user.id }, 
+                { complaint_id: complaint.id }], "=", "AND")
+                .then(chat => {
+                    if (chat) {
+                        for(let item of chat){
+                            if(item.user_type = 0){
+                                item.by = "admin-reply"
+                            } else{
+                                item.by = "student-reply"
+                            }
+                        }
+                        res.render('chat/mycomplaint', {
+                            chat,
+                            complaint,
+                        });
+                    } else {
+                        res.render('chat/mycomplaint', {
+                            chat: false,
+                            complaint
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
+});
+
+router.post('/chat/', (req, res) => {
+    let nDate = new Date();
+    let createdAt = nDate.getFullYear() + '-' + nDate.getMonth() + '-' + nDate.getDate();
+    let newPost = {
+        createdAt,
+        reply: req.body.reply,
+        complaint_id: req.body.complaintId,
+        student_id: req.user.id,
+        user_type: 1
+    }
+
+    postRepository.insert(newPost)
+        .then(post => {
+            res.render("chat/mycomplaint", {
+                chat: post,
+                student: true
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        })
 });
 
 module.exports = router;
