@@ -108,7 +108,7 @@ router.post('/signup', (req, res) => {
 
 
 router.get('/mycomplaint', ensureAuthenticated, (req, res) => {
-    complaintsRepository.findById(1)
+    complaintsRepository.findById(2)
         .then(complaint => {
             postRepository.findMany([{ student_id: req.user.id }, 
                 { complaint_id: complaint.id }], "=", "AND")
