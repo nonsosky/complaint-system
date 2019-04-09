@@ -10,23 +10,17 @@ const postRepository = require("../server/repository/PostRepos");
 
 //-- local middlewares
 const { ensureAuthenticated } = require('../server/config/auth');
+const {formatChat} = require('../server/helpers/formatter');
 
 //complaints route
 router.post('/make/complaints', (req, res) => {
-    let year, month, day, nDate;
-    nDate = new Date();
-
-    year = nDate.getFullYear();
-    month = nDate.getMonth() + 1;
-    day = nDate.getDate();
 
     let newComplaint = {
         complaint: req.body.complaints,
-        createdAt: year + '/' + month + '/' + day,
         student_id: req.user.id
     };
 
-    console.log(newComplaint);
+    // console.log(newComplaint);
 
     complaintsRepository.insert(newComplaint)
         .then(complaint => {
@@ -107,62 +101,102 @@ router.post('/signup', (req, res) => {
 });
 
 
-router.get('/mycomplaint', ensureAuthenticated, (req, res) => {
-    complaintsRepository.findById(2)
+router.get('/mycomplaints', ensureAuthenticated, (req, res) => {
+    let id = req.user.id;
+    complaintsRepository.findMany([{ student_id: id }], "=")
+        .then(complaints => {
+            res.render('mycomplaints/mycomplaint', { complaints });
+        })
+        .catch(err => {
+            req.flash('error', 'Sorry, an error occured while retrieving data.');
+            res.redirect('/');
+        });
+});
+
+
+// router.get('/mycomplaint', ensureAuthenticated, (req, res) => {
+//     complaintsRepository.findById(2)
+//         .then(complaint => {
+//             postRepository.findMany([{ student_id: req.user.id },
+//             { complaint_id: complaint.id }], "=", "AND")
+//                 .then(chat => {
+//                     if (chat) {
+//                         for (let item of chat) {
+//                             if (item.user_type = 0) {
+//                                 item.by = "admin-reply"
+//                             } else {
+//                                 item.by = "student-reply"
+//                             }
+//                         }
+//                         res.render('chat/mycomplaint', {
+//                             chat,
+//                             complaint,
+//                         });
+//                     } else {
+//                         res.render('chat/mycomplaint', {
+//                             chat: false,
+//                             complaint
+//                         });
+//                     }
+//                 })
+//                 .catch(err => {
+//                     console.log(err);
+//                 })
+//         })
+//         .catch(err => {
+//             console.log(err);
+//         })
+
+// });
+
+router.get('/chat/:id', (req, res) => {
+    let complaintId = req.params.id;
+    let studentId = req.user.id;
+
+    complaintsRepository.findById(complaintId)
         .then(complaint => {
-            postRepository.findMany([{ student_id: req.user.id }, 
-                { complaint_id: complaint.id }], "=", "AND")
+            postRepository.findJoin({student: [{column: 'lastName'}, {column:'firstName'}], post: [{column: 'createdAt'}, {column: 'reply'}, {column:'complaint_id'}, {column:'student_id'}, {column: 'user_type'}]}, {student: 'student_id'}, [{table: 'post', column: 'student_id', value: studentId, operator: '=', nextOperator: 'AND'}, {table: 'post', column: 'complaint_id', value: complaintId, operator: '='}])
                 .then(chat => {
-                    if (chat) {
-                        for(let item of chat){
-                            if(item.user_type = 0){
-                                item.by = "admin-reply"
-                            } else{
-                                item.by = "student-reply"
-                            }
-                        }
-                        res.render('chat/mycomplaint', {
-                            chat,
-                            complaint,
-                        });
-                    } else {
-                        res.render('chat/mycomplaint', {
-                            chat: false,
-                            complaint
-                        });
+                    
+                    if (chat){
+                        chat = formatChat(chat);
                     }
+                    console.log(chat);
+                    res.render("chat/chats", {active:"student", complaint, chat});
                 })
                 .catch(err => {
                     console.log(err);
-                })
+                    req.flash('error', 'Failed to retrieve chats');
+                    res.redirect('/');
+                });
         })
         .catch(err => {
             console.log(err);
-        })
-
+            res.redirect('/');
+        });
 });
 
 router.post('/chat/', (req, res) => {
-    let nDate = new Date();
-    let createdAt = nDate.getFullYear() + '-' + nDate.getMonth() + '-' + nDate.getDate();
+    
+    //console.log(createdAt)
     let newPost = {
-        createdAt,
         reply: req.body.reply,
         complaint_id: req.body.complaintId,
         student_id: req.user.id,
         user_type: 1
     }
 
-    postRepository.insert(newPost)
-        .then(post => {
-            res.render("chat/mycomplaint", {
-                chat: post,
-                student: true
-            });
+        postRepository.insert(newPost)
+        .then(chat => {
+            res.redirect(`/student/chat/${req.body.complaintId}`)
         })
         .catch(err => {
             console.log(err);
-        })
+        });
+      
 });
+
+
+
 
 module.exports = router;

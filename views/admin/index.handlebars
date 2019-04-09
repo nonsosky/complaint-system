@@ -1,0 +1,50 @@
+<div class="container mt-1 col-md-9">
+    <ul class="nav nav-pills col-md-10 mx-auto">
+        <li class="nav-item">
+            <a class="nav-link active" href="#">All Complaints</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/admin/todays/complaints/">Todays Complaints</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Resolved Complaints</a>
+        </li>
+    </ul>
+
+    <div class="main-panel mt-2">
+        {{#if allComplaints}}
+        {{#each allComplaints}}
+        <div class="panel">
+            <p>{{complaint}}</p>
+            <p>by <em>{{firstName}} {{lastName}}</em></p>
+            <div class="box-right">
+                <a href="/admin/chat/{{id}}" class="btn btn-warning btn-sm">Chat</a>
+                <a href="#" class="btn btn-success btn-sm">Resolve</a>
+            </div>
+        </div>
+        {{/each}}
+        {{else if todaysComplaints}}
+        <div class="panel">
+            <p>Lorem ipsum deta amnet isum prudem dem sumtum pertribus</p>
+            <p>by <em>John Doe</em></p>
+            <div class="box-right">
+                <a href="#" class="btn btn-warning btn-sm">Chat</a>
+                <a href="#" class="btn btn-success btn-sm">Resolve</a>
+            </div>
+        </div>
+        {{else if resolvedComplaints}}
+        <div class="panel">
+            <p>Lorem ipsum deta amnet isum prudem dem sumtum pertribus</p>
+            <p>by <em>John Doe</em></p>
+            <div class="box-right">
+                <a href="#" class="btn btn-warning btn-sm">View Chat</a>
+            </div>
+        </div>
+        {{else}}
+        <div class="alert alert-warning">
+            <a href="#" class="close" data-dismiss="alert">&times;</a>
+            <p>No data</p>
+        </div>
+        {{/if}}
+    </div>
+</div>

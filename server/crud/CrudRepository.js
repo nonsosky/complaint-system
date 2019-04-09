@@ -178,7 +178,7 @@ class CrudRepository{
       });
   }
 
-  findMany(where=[{}], operator="=", joinOperator="AND"){
+  findMany(where=[{}], operator="=", joinOperator="AND", orderBy=""){
     return new Promise((resolve, reject)=>{
       let query = `SELECT * FROM \`${this.table}\` `;
       if(where.length !== 0){
@@ -201,7 +201,12 @@ class CrudRepository{
           }
         } 
         pos = 0;
-        query += clause + ";";
+        query += clause;
+        if(orderBy){
+          query += ` ORDER BY ${orderBy} DESC;`
+        } else{
+          query += ';';
+        }
       } 
 
       this.execute(query, null)

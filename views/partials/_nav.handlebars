@@ -19,13 +19,20 @@
                 <a class="nav-link" href="#">Aboutus</a>
             </li>
 
-            {{#if user}}
+            {{#if user.user_type}}
             <li class="nav-item">
                 <a class="nav-link btn yellow mr-1" href="#" data-toggle="modal" data-target="#complaint">Make
                     Complaint</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link btn yellow mr-1" href="/student/mycomplaint">My Complaint</a>
+                <a class="nav-link btn yellow mr-1" href="/student/mycomplaints">My Complaint</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn yellow mr-1" href="/logout">Logout</a>
+            </li>
+            {{else if admin}}
+            <li class="nav-item">
+                <a class="nav-link btn yellow mr-1" href="/admin/">Dashboard</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link btn yellow mr-1" href="/logout">Logout</a>
@@ -103,7 +110,7 @@
             <div class="modal-body">
                 <form action="/student/make/complaints" method="post">
                     <div class="form-group">
-                        <textarea class="form-control" name="complaints" rows="5" maxlength="500"></textarea>
+                        <textarea class="form-control" autofocus="true" name="complaints" rows="5" maxlength="500"></textarea>
                     </div>
                     <button type="submit" class="btn btn-ptimary">Complain</button>
                 </form>

@@ -19,6 +19,7 @@ CREATE TABLE `student` (
     `password`    CHAR(60),
     `dob`     DATE,
     `matric_no`   VARCHAR(30),
+    `phone_no`  VARCHAR(20),
     `pictureDir`  VARCHAR(100),
     `dept_id`   INT(3),
     `user_type` INT(3) DEFAULT 1,
@@ -31,7 +32,7 @@ CREATE TABLE `student` (
 CREATE TABLE `complaints` (
     `id`   INT(3) AUTO_INCREMENT,
     `complaint`   VARCHAR(500) NOT NULL,
-    `createdAt`    DATE,
+    `createdAt`    TIMESTAMP,
     `status`      BOOLEAN DEFAULT FALSE,
     `student_id`  INT(3),
 
@@ -41,6 +42,7 @@ CREATE TABLE `complaints` (
 
 CREATE TABLE `admin` (
     `id`    INT(3) AUTO_INCREMENT,
+    `userName`      VARCHAR(30),
     `emailAddress`    VARCHAR(30),
     `password`      CHAR(60),
     `pictureDir`    VARCHAR(100),
@@ -51,15 +53,17 @@ CREATE TABLE `admin` (
 
 CREATE TABLE `post` (
     `id`   INT(3) AUTO_INCREMENT,
-    `createdAt` DATE,
+    `createdAt` TIMESTAMP,
     `reply`     VARCHAR(500),
     `complaint_id`  INT(3),
     `student_id`    INT(3),
+    `admin_id`    INT(3),
     `user_type`     INT(3) DEFAULT 0,
 
     CONSTRAINT `post_pk` PRIMARY KEY (`id`),
     CONSTRAINT `post_complaints_FK` FOREIGN KEY (`complaint_id`) REFERENCES `complaints` (`id`),
-    CONSTRAINT `post_student_FK` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`)
+    CONSTRAINT `post_student_FK` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`),
+    CONSTRAINT `post_admin_FK` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`id`)
 );
 
 
@@ -71,17 +75,17 @@ VALUES("okpara", "kenneth", "chinonso", "male", "nonsoskyokpara@gmail.com", "non
      ("Iwuji", "Jude", "U.", "male", "jude@gmail.com", "00000", "1995-07-06", "2017/HND/CST/77102", "", 1);
 
 -- Store admin data into DB
-INSERT INTO `admin` (`emailAddress`,`password`)
-VALUES ('nonsosky@gmail.com',00000);
+-- INSERT INTO `admin` (`emailAddress`,`password`)
+-- VALUES ('nonsosky@gmail.com',00000);
 
 -- Store complaint data into DB
-INSERT INTO `complaints` (`createdAt`, `student_id`, `complaint`)
-VALUES ("2019-03-03", 1, "Cult threat"),
-       ("2019-03-04", 2, "Handout over payment");
+INSERT INTO `complaints` (`student_id`, `complaint`)
+VALUES (1, "Cult threat"),
+       (2, "Handout over payment");
 
 -- Store post data into db
 -- Note user_type = 0 (admin) user_type = 1 (student)
-INSERT INTO `post` (`createdAt`, `student_id`, `reply`, `complaint_id`, `user_type`)
-VALUES ("2019-03-03", 1, "Is it around school premises?", 1, 0),
-       ("2019-03-03", 1, "Yes", 1, 1);
+INSERT INTO `post` (`student_id`, `reply`, `complaint_id`, `user_type`)
+VALUES (1, "Is it around school premises?", 1, 0),
+       (1, "Yes", 1, 1);
 

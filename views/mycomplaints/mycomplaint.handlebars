@@ -1,0 +1,20 @@
+
+<div class="card card-body mb-2">
+  <h4>{{complaint}}</h4>
+  <div class="col-md-9 mx-auto">
+      {{#each complaints}}
+      <div class="complaint">
+        <p class="complaint-text">{{complaint}}</p>
+        <p class="complaint-date">{{createdAt}}</p>
+        <a href="/student/chat/{{id}}" class="btn btn-warning pull-left">Chat</a>
+      </div>
+      {{else}}
+      <p class="col-md-5 mx-auto">You have no Complaints</p>
+      {{/each}}
+  </div>
+  {{!-- <a href="/ideas/edit/{{id}}" class="btn btn-dark btn-block mb-2">Edit</a>
+  <form method="POST" action="/ideas/{{id}}?_method=DELETE">
+  <input type="hidden" name="_method" value="DELETE">
+  <input type="submit" class="btn btn-danger btn-block" value="Delete">
+  </form> --}}
+</div>

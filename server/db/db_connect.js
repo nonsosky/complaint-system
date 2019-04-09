@@ -7,7 +7,7 @@ function init() {
         user,
         password,
         database,
-        connectionLimit: 7
+        connectionLimit: 10
     });
 }
 

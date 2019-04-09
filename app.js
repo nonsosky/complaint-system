@@ -10,10 +10,15 @@ const connect = require("./server/db/db_connect");
 
 //load routes
 const student = require('./routes/student');
+const admin = require('./routes/admin');
 
+
+//admin init
+const {adminConfig} = require('./server/config/init');
 
 connect().then(conn =>{
 console.log("connected to db")
+adminConfig()
 },err=>{
     console.log(err)
 })
@@ -56,10 +61,9 @@ app.use((req, res, next) => {
 
 //homepage route
 app.get('/',(req, res) => {
-    console.log(req.user)
-         res.render('index', {
-            pageTitle: 'Student Complaint System',
-        });
+    res.render('index', {
+        pageTitle: 'Student Complaint System',
+    });
 });
 
 //Logout route
@@ -73,6 +77,7 @@ app.get('/logout', (req, res) =>{
 
 //Use routes
 app.use('/student', student);
+app.use('/admin/', admin);
 
 
 app.listen(port, () => {

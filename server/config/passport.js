@@ -2,7 +2,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 
 //-- Load admin repository
-//const adminRepository = require('../lib/repository/AdminRepos');
+const adminRepository = require('../repository/AdminRepos');
 //-- Load student repository
 const studentRepository = require('../repository/StudentRepos');
 
@@ -43,9 +43,8 @@ module.exports = function (passport, User) {
   passport.deserializeUser(function(key, done){
     User = {};
 
-    //if(key.type === 0) User = adminRepository;
+    if(key.type === 0) User = adminRepository;
     if(key.type === 1) User = studentRepository;
-console.log(key.type)
     User.findById(key._id)
      .then((user)=>{
       done(null, user);
