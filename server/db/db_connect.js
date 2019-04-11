@@ -16,6 +16,9 @@ function connectdb(){
         conn = init();
         conn.getConnection((err, connect)=> {
             if (err) return reject(err);
+            connect.query("SET time_zone='+01:00';", (error=>{
+                if (error) console.log(error);
+            }))
             return resolve(connect);
         });
     })
