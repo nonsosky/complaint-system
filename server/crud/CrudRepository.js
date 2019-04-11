@@ -178,7 +178,7 @@ class CrudRepository{
       });
   }
 
-  findMany(where=[{}], operator="=", joinOperator="AND", orderBy=""){
+  findMany(where=[{}], operator="", joinOperator="", orderBy=""){
     return new Promise((resolve, reject)=>{
       let query = `SELECT * FROM \`${this.table}\` `;
       if(where.length !== 0){
@@ -272,8 +272,7 @@ class CrudRepository{
         ++more;
       }
       query += ' FROM `' + this.table + '` ' + joinClause;
-      query += this.whereClause(where) + ';';
-      
+      query += " " + this.whereClause(where) + ';';
       this.execute(query, null)
           .then((data)=>{
             if(data.length === 0){

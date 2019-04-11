@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="mt-1 col-md-7 mx-auto">
+        <div class="jumbotron card col-md-9 text-bg">
+            <p>{{complaint.complaint}}</p>
+        </div>
+        <div class="chat__main">
+            <ol id="messages" class="chat__messages">
+                {{#each chat}}
+                <li class="message">
+                    <div class="message__title">
+                        <h4>{{userName}} </h4>
+                        <span>{{createdAt}}</span>
+                    </div>
+                    <div class="message__body">
+                        <p>
+                            {{reply}}
+                        </p>
+                    </div>
+                </li>
+                {{/each}}
+            </ol>
+        </div>
+    </div>
+</div>

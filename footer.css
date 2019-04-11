@@ -1,0 +1,51 @@
+.icon-bg {
+  font-size: 200%;
+}
+
+.facebook-blue{
+  color: rgb(9, 100, 238);
+}
+
+.whatsapp-green{
+  -webkit-text-stroke: 0.8px #ffffff;
+  color: #2dd41a;
+}
+
+.twitter-blue{
+  color: rgb(2, 99, 245);
+}
+
+.inline-list{
+  width: 100%;
+}
+.inline-list li,.inline-list li p,.inline-list li a{
+  display: inline;
+  margin-right: 2%;
+}
+.inline-list li {
+  list-style: none;
+  list-style-position: initial;
+}
+
+.list {
+  width: 100%;
+}
+.list li {
+  list-style: none;
+}
+
+.center {
+  width: 100%;
+  display: block !important;
+  text-align: center;
+}
+
+.footer {
+  border-top: 2px solid #e7640c; 
+  width: 100%;
+  font-size: 85%;
+  position: sticky;
+  background-color: #13311f;
+  color: #dfdfdf;
+  bottom: -150px;
+}

@@ -7,29 +7,29 @@ const router = require('express').Router();
 const complaintRepository = require('../server/repository/ComplaintsRepos');
 const postRepository = require("../server/repository/PostRepos");
 const adminrepository = require('../server/repository/AdminRepos');
-const {formatChat} = require('../server/helpers/formatter');
-const {ensureAuthenticated} = require('../server/config/auth');
+const { formatChat } = require('../server/helpers/formatter');
+const { ensureAuthenticated } = require('../server/config/auth');
 
 //-- display admin index page
-router.get('/', ensureAuthenticated, (req, res)=>{
-    complaintRepository.findJoin({student: [{column: "lastName"}, {column: "firstName"}], complaints:[{column: "complaint"}, {column: "status"}, {column: 'id'}]}, {student: "student_id"})
-      .then(allComplaints=>{
-        res.render('admin/index', {admin:true, allComplaints});
-      })
-      .catch(err=>{
-          console.log(err);
-          req.flash('error', 'Sorry an error occured.');
-          res.redirect('/');
-      });
+router.get('/', ensureAuthenticated, (req, res) => {
+    complaintRepository.findJoin({ student: [{ column: "lastName" }, { column: "firstName" }], complaints: [{ column: "complaint" }, { column: "status" }, { column: 'id' }] }, { student: "student_id" })
+        .then(allComplaints => {
+            res.render('admin/index', { admin: true, allComplaints, allComplaintBtn: "active" });
+        })
+        .catch(err => {
+            console.log(err);
+            req.flash('error', 'Sorry an error occured.');
+            res.redirect('/');
+        });
 })
 //-- display the admin signin page
-router.get('/signin/', (req, res)=>{
+router.get('/signin/', (req, res) => {
     res.render('admin/signin', {
         pageTitle: 'Complaint System | Signin'
     });
 });
 //-- Process Admin signin
-router.post('/signin/', (req, res, next)=>{
+router.post('/signin/', (req, res, next) => {
     require("../server/config/passport")(passport, adminrepository);
     passport.authenticate('local', {
         successRedirect: '/admin/',
@@ -46,13 +46,13 @@ router.get('/chat/:id', (req, res) => {
 
     complaintRepository.findById(complaintId)
         .then(complaint => {
-            postRepository.findJoin({student: [{column: 'lastName'}, {column:'firstName'}], post: [{column: 'createdAt'}, {column: 'reply'}, {column:'complaint_id'}, {column:'student_id'}, {column: 'user_type'}]}, {student: 'student_id'}, [{table: 'post', column: 'complaint_id', value: complaintId, operator: '='}])
+            postRepository.findJoin({ student: [{ column: 'lastName' }, { column: 'firstName' }], post: [{ column: 'createdAt' }, { column: 'reply' }, { column: 'complaint_id' }, { column: 'student_id' }, { column: 'user_type' }] }, { student: 'student_id' }, [{ table: 'post', column: 'complaint_id', value: complaintId, operator: '=' }])
                 .then(chat => {
-                    if(chat){
+                    if (chat) {
                         chat = formatChat(chat);
                     }
                     //console.log(chat);
-                    res.render("chat/chats", { admin:true,active:"admin", complaint, chat });
+                    res.render("chat/chats", { admin: true, active: "admin", complaint, chat, pageTitle:"Complaint System | Chatting" });
                 })
                 .catch(err => {
                     req.flash('error', 'Failed to retrieve chats');
@@ -68,8 +68,8 @@ router.get('/chat/:id', (req, res) => {
 
 router.post('/chat/', (req, res) => {
     let nDate = new Date();
-    let createdAt = nDate.getFullYear() + '-' + (nDate.getMonth()+1) + '-' + nDate.getDate();
-    
+    let createdAt = nDate.getFullYear() + '-' + (nDate.getMonth() + 1) + '-' + nDate.getDate();
+
     let newPost = {
         createdAt,
         reply: req.body.reply,
@@ -79,28 +79,79 @@ router.post('/chat/', (req, res) => {
         user_type: 0
     }
 
-        postRepository.insert(newPost)
+    postRepository.insert(newPost)
         .then(chat => {
             res.redirect(`/admin/chat/${req.body.complaintId}`)
         })
         .catch(err => {
             console.log(err);
         });
-      
+
 });
 
-router.get('/todays/complaints/', (req, res)=>{
-let today = new Date();
+router.get('/todays/complaints/', ensureAuthenticated, (req, res) => {
+    let today = new Date();
+    let year, month, day;
+    year = today.getFullYear();
+    month = today.getMonth() + 1;
+    day = today.getDate();
+    today = year + "-" + month + "-" + day;
+    complaintRepository.findJoin({ student: [{ column: "lastName" }, { column: "firstName" }], complaints: [{ column: "complaint" }, { column: "status" }, { column: 'id' }] }, { student: "student_id" }, [{table:'complaints', column: 'createdAt', value: today, operator: '>='}])
+        .then(todaysComplaints => {
+            res.render('admin/index', { admin: true, todaysComplaints, todayBtn: "active" });
+        })
+        .catch(err => {
+            console.log(err);
+            req.flash('error', 'Sorry an error occured.');
+            res.redirect('/');
+        });
+});
 
-    complaintRepository.findMany([{createdAt: today}], '=')
-      .then(todaysComplaints=>{
-res.render('admin/index', {admin:true,todaysComplaints});
+router.get('/complaint/resolve/:cid', (req, res)=>{
+    let cid = req.params.cid;
+    let host = req.hostname;
+    let port = req.socket.localPort;
+    let domainName = req.baseUrl;
+    let protocol = req.protocol;
+    let address = `${protocol}://${host}:${port}${domainName}/`;
+    console.log(address)
+
+    complaintRepository.update({status: 1}, cid)
+      .then(result=>{
+        req.flash('success', "Complaint has been resolved.");
+        //-- Send mail to student
+        res.redirect(address);
       })
-      .catch(err =>{
-console.log(err);
-req.flash('error', 'Failed to retrieve complaints');
-res.redirect('/admin/');
-      });
+      .catch(err=>{
+          console.log(err);
+          res.redirect('/admin/');
+      })
+
+});
+
+router.get('/view/chat/:id', ensureAuthenticated, (req, res) => {
+    let complaintId = req.params.id;
+    //let adminId = req.user.id;
+
+    complaintRepository.findById(complaintId)
+        .then(complaint => {
+            postRepository.findJoin({ student: [{ column: 'lastName' }, { column: 'firstName' }], post: [{ column: 'createdAt' }, { column: 'reply' }, { column: 'complaint_id' }, { column: 'student_id' }, { column: 'user_type' }] }, { student: 'student_id' }, [{ table: 'post', column: 'complaint_id', value: complaintId, operator: '=' }])
+                .then(chat => {
+                    if (chat) {
+                        chat = formatChat(chat);
+                    }
+                    //console.log(chat);
+                    res.render("chat/view_chat", { admin: true, active: "admin", complaint, chat, pageTitle: "Complaint System | View Chats"});
+                })
+                .catch(err => {
+                    req.flash('error', 'Failed to retrieve chats');
+                    res.redirect('/');
+                });
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect('/');
+        });
 });
 
 module.exports = router;

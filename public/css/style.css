@@ -16,7 +16,7 @@ body {
 
 .slider-img {
     width: 100%;
-    height: 91.1vh;
+    height: 70.1vh;
 }
 
 .hero-text {
@@ -30,6 +30,10 @@ body {
     left: 50%;
     transform: translate(-50%);
     opacity: 0.85;
+}
+
+.menu a:hover{
+ background-color: #000;
 }
 
 .dialog {
@@ -95,7 +99,12 @@ body {
     color: #000 !important;
     background-color: rgba(235, 185, 21, 0.884);
 }
-
+.avatar{
+    width: 90px;
+    height: 60px;
+    border-radius: 50%;
+    margin-top: -10px;
+}
 .text-bg {
 font-size: 120%;
 }
@@ -106,7 +115,9 @@ font-size: 120%;
     border-radius: 10px;
     position: relative;
 }
-
+.p-bottom{
+    padding-bottom: 200px;
+}
 .panel {
     background-color: rgb(205, 240, 148);
     padding: 5px;
@@ -148,7 +159,7 @@ h3{
 }
 
 button{
-    background:#265f82;
+    background: rgb(224, 175, 13);
     cursor:pointer;
     transition:background 0.3s ease;
 }
@@ -156,7 +167,7 @@ button{
 
 button:disabled{
     cursor:default;
-    background:#698ea5;
+    background:rgb(224, 175, 13);
 }
 
 .centered-form{
@@ -236,3 +247,63 @@ button:disabled{
     .chat__footer form{margin-bottom:10px
 }
 .chat__footer button{margin-right:0}}
+
+
+/* Footer */
+.icon-bg {
+    font-size: 200%;
+  }
+  
+  .facebook-blue{
+    color: rgb(9, 100, 238);
+  }
+  
+  .whatsapp-green{
+    -webkit-text-stroke: 0.8px #ffffff;
+    color: #2dd41a;
+  }
+  
+  .twitter-blue{
+    color: rgb(2, 99, 245);
+  }
+  
+  .inline-list{
+    width: 100%;
+  }
+  .inline-list li,.inline-list li p,.inline-list li a{
+    display: inline;
+    margin-right: 2%;
+  }
+  .inline-list li {
+    list-style: none;
+    list-style-position: initial;
+  }
+  
+  .list {
+    width: 100%;
+  }
+  .list li {
+    list-style: none;
+  }
+  
+  .center {
+    width: 100%;
+    display: block !important;
+    text-align: center;
+  }
+  
+  .footer {
+    border-top: 2px solid #e7640c; 
+    width: 100%;
+    font-size: 85%;
+    position: sticky;
+    background-color: #000;
+    color: #dfdfdf;
+    bottom: 0px;
+  }
+
+
+  #complaint {
+      height: 70vh;
+      /* max-height: 80vh; */
+  }

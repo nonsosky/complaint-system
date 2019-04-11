@@ -1,10 +1,10 @@
-<div class="container mt-1 col-md-9">
+<div class="container mt-1 col-md-9 p-bottom">
     <ul class="nav nav-pills col-md-10 mx-auto">
         <li class="nav-item">
-            <a class="nav-link active" href="#">All Complaints</a>
+            <a class="nav-link {{allComplaintBtn}}" href="/admin/">All Complaints</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/admin/todays/complaints/">Todays Complaints</a>
+            <a class="nav-link {{todayBtn}}" href="/admin/todays/complaints/">Todays Complaints</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#">Resolved Complaints</a>
@@ -18,19 +18,33 @@
             <p>{{complaint}}</p>
             <p>by <em>{{firstName}} {{lastName}}</em></p>
             <div class="box-right">
+                
+                {{#if status}}
+                <a href="/admin/view/chat/{{id}}" class="btn btn-warning btn-sm">View Chat</a>
+                {{else}}
                 <a href="/admin/chat/{{id}}" class="btn btn-warning btn-sm">Chat</a>
-                <a href="#" class="btn btn-success btn-sm">Resolve</a>
+                <a href="/admin/complaint/resolve/{{id}}" class="btn btn-success btn-sm">Resolve</a>
+                {{/if}}
             </div>
         </div>
         {{/each}}
         {{else if todaysComplaints}}
         <div class="panel">
-            <p>Lorem ipsum deta amnet isum prudem dem sumtum pertribus</p>
-            <p>by <em>John Doe</em></p>
+            {{#each todaysComplaints}}
+        <div class="panel">
+            <p>{{complaint}}</p>
+            <p>by <em>{{firstName}} {{lastName}}</em></p>
             <div class="box-right">
-                <a href="#" class="btn btn-warning btn-sm">Chat</a>
-                <a href="#" class="btn btn-success btn-sm">Resolve</a>
+                
+                {{#if status}}
+                <a href="/admin/view/chat/{{id}}" class="btn btn-warning btn-sm">View Chat</a>
+                {{else}}
+                <a href="/admin/chat/{{id}}" class="btn btn-warning btn-sm">Chat</a>
+                <a href="/admin/complaint/resolve/{{id}}" class="btn btn-success btn-sm">Resolve</a>
+                {{/if}}
             </div>
+        </div>
+        {{/each}}
         </div>
         {{else if resolvedComplaints}}
         <div class="panel">

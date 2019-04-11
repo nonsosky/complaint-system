@@ -27,8 +27,14 @@
             <li class="nav-item">
                 <a class="nav-link btn yellow mr-1" href="/student/mycomplaints">My Complaint</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link btn yellow mr-1" href="/logout">Logout</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link mr-1" href="#" data-toggle="dropdown">
+                    <img src="/img/avatar.jpg" class="avatar"/>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right text-center bg-dark menu">
+                    <a href="#" class="dropdown-item text-light">Change Photo</a>
+                    <a href="/logout/" class="dropdown-item text-light">Logout</a>
+                </div>
             </li>
             {{else if admin}}
             <li class="nav-item">
