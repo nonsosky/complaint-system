@@ -2,6 +2,14 @@ DROP DATABASE IF EXISTS `complaint-system`;
 
 CREATE DATABASE `complaint-system`;
 
+-- USE heroku_c97954ee1bcdfbd;
+
+-- drop table `post`;
+-- drop table `admin`;
+-- drop table `complaints`;
+-- drop table `student`;
+-- drop table `department`;
+
 CREATE TABLE `department` (
     `id`   INT(3) AUTO_INCREMENT,
     `dept_name`   VARCHAR(30) NOT NULL,
@@ -64,7 +72,7 @@ CREATE TABLE `post` (
     CONSTRAINT `post_complaints_FK` FOREIGN KEY (`complaint_id`) REFERENCES `complaints` (`id`),
     CONSTRAINT `post_student_FK` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`),
     CONSTRAINT `post_admin_FK` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`id`)
-);
+)Engine=InnoDB;
 
 
 INSERT INTO `department` (`dept_name`) 

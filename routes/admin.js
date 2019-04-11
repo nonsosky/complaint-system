@@ -71,7 +71,6 @@ router.post('/chat/', (req, res) => {
     let createdAt = nDate.getFullYear() + '-' + (nDate.getMonth() + 1) + '-' + nDate.getDate();
 
     let newPost = {
-        createdAt,
         reply: req.body.reply,
         complaint_id: req.body.complaintId,
         student_id: req.body.studentId,

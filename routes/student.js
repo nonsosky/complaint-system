@@ -10,7 +10,7 @@ const postRepository = require("../server/repository/PostRepos");
 
 //-- local middlewares
 const { ensureAuthenticated } = require('../server/config/auth');
-const {formatChat} = require('../server/helpers/formatter');
+const {formatChat, formatDate} = require('../server/helpers/formatter');
 
 //complaints route
 router.post('/make/complaints', (req, res) => {
@@ -105,6 +105,9 @@ router.get('/mycomplaints', ensureAuthenticated, (req, res) => {
     let id = req.user.id;
     complaintsRepository.findMany([{ student_id: id }], "=")
         .then(complaints => {
+            for(let item of complaints){
+                item.createdAt = formatDate(item.createdAt);
+            }
             res.render('mycomplaints/mycomplaint', { complaints });
         })
         .catch(err => {

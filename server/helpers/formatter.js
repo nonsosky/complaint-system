@@ -30,4 +30,8 @@ function formatChat(chats) {
     return chats;
 }
 
-module.exports = { formatChat };
+function formatDate(date){
+    return moment(date).format('LLL');
+}
+
+module.exports = { formatChat, formatDate };
