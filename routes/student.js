@@ -4,6 +4,9 @@ const complaintsRepository = require('../server/repository/ComplaintsRepos');
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 
+//Load send.js
+const send = require("../third_party/send");
+
 //Load department repos
 const departmentRepository = require("../server/repository/DepartmentRepos");
 const postRepository = require("../server/repository/PostRepos");
@@ -68,6 +71,7 @@ router.post('/signup', (req, res) => {
         emailAddress: req.body.email,
         password: req.body.password,
         dob: req.body.dob,
+        phone_no: "234"+req.body.telNo,
         matric_no: req.body.matric,
     }
     console.log(newStudent);
@@ -86,8 +90,16 @@ router.post('/signup', (req, res) => {
                         newStudent.password = hash;
                         studentrepository.insert(newStudent)
                             .then(student => {
-                                req.flash('success', 'successfully registered');
-                                res.redirect('/');
+                                send({to: newStudent.phone_no, text:'Your registeration to Impoly Complaint system was successful, feel free to make your complaint'})
+                                    .then(info => {
+                                        console.log(info)
+                                        req.flash('success', 'successfully registered');
+                                        res.redirect('/');
+                                    }).catch(err => {
+                                        console.log(err);
+                                        res.redirect('/')
+                                    })
+
                             }, err => {
                                 console.log(err);
                                 req.flash('error', 'Unable to register user');

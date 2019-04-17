@@ -32,6 +32,10 @@ body {
     opacity: 0.85;
 }
 
+.navbar {
+    background-color: rgb(8, 34, 5);
+}
+
 .menu a:hover{
  background-color: #000;
 }
@@ -298,7 +302,7 @@ button:disabled{
     width: 100%;
     font-size: 85%;
     position: sticky;
-    background-color: #000;
+    background-color: rgb(8, 34, 5);
     color: #bb8012;
     bottom: 0px;
   }

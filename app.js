@@ -11,6 +11,7 @@ const connect = require("./server/db/db_connect");
 //load routes
 const student = require('./routes/student');
 const admin = require('./routes/admin');
+const aboutus = require('./routes/aboutus');
 
 
 //admin init
@@ -78,6 +79,7 @@ app.get('/logout', (req, res) =>{
 //Use routes
 app.use('/student', student);
 app.use('/admin/', admin);
+app.use('/aboutus/', aboutus);
 
 
 app.listen(port, () => {

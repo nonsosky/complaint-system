@@ -7,8 +7,12 @@ const router = require('express').Router();
 const complaintRepository = require('../server/repository/ComplaintsRepos');
 const postRepository = require("../server/repository/PostRepos");
 const adminrepository = require('../server/repository/AdminRepos');
+const studentRepository = require('../server/repository/StudentRepos');
 const { formatChat } = require('../server/helpers/formatter');
 const { ensureAuthenticated } = require('../server/config/auth');
+
+// Load sendjs
+const send = require("../third_party/send");
 
 //-- display admin index page
 router.get('/', ensureAuthenticated, (req, res) => {
@@ -117,9 +121,26 @@ router.get('/complaint/resolve/:cid', (req, res)=>{
 
     complaintRepository.update({status: 1}, cid)
       .then(result=>{
-        req.flash('success', "Complaint has been resolved.");
-        //-- Send mail to student
-        res.redirect(address);
+        let sid = result.student_id;
+        studentRepository.findById(sid)
+          .then(student=>{
+            
+              let to  = student.phone_no;
+              send({to, text:'Your Complaint has been successfully resolved'})
+                .then(info=>{
+                    console.log(info)
+                })
+                .catch(err=>{
+                    console.log(err)
+                })
+              req.flash('success', "Complaint has been resolved.");
+              res.redirect(address);
+          })
+          .catch(err=>{
+            console.log(err);
+            req.flash('error', 'Sorry action can not be completed.');
+            res.redirect('/admin/');
+          });
       })
       .catch(err=>{
           console.log(err);
