@@ -10,10 +10,10 @@ function init() {
         connectionLimit: 10
     });
 }
+let conn = init();
 
 function connectdb(){
     return new Promise((resolve, reject) => {
-        conn = init();
         conn.getConnection((err, connect)=> {
             if (err) return reject(err);
             connect.query("SET time_zone='+01:00';", (error=>{
