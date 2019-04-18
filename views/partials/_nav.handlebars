@@ -13,10 +13,10 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/">HOME</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/aboutus/index">Aboutus</a>
+                <a class="nav-link" href="/aboutus/index">ABOUT</a>
             </li>
 
             {{#if user.user_type}}
@@ -45,10 +45,10 @@
             </li>
             {{else}}
             <li class="nav-item">
-                <a class="nav-link" href="/student/signup">Signup</a>
+                <a class="nav-link" href="/student/signup">SIGNUP</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="modal" data-target="#signin">Signin</a>
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#signin">LOGIN</a>
             </li>
             {{/if}}
         </ul>
@@ -82,7 +82,7 @@
                                     <label for="password">Password</label>
                                     <input type="password" class="form-control" name="password" required>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-warning">Log in</button>
                             </form>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
             </div>
 
         </div>

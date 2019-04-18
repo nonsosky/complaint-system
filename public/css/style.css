@@ -156,6 +156,8 @@ li,ul{
     list-style-position:inside;
 }
 
+
+
 h3{
     font-weight:600;
     text-align:center;
@@ -303,10 +305,16 @@ button:disabled{
     font-size: 85%;
     position: sticky;
     background-color: rgb(8, 34, 5);
-    color: #bb8012;
-    bottom: 0px;
+    color: #fff;
+    bottom: -500px;
   }
 
+/* Addon */
+#add {
+    background-color: green;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px; 
+}
 
   #complaint {
       height: 70vh;
