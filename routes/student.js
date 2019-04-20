@@ -128,42 +128,6 @@ router.get('/mycomplaints', ensureAuthenticated, (req, res) => {
         });
 });
 
-
-// router.get('/mycomplaint', ensureAuthenticated, (req, res) => {
-//     complaintsRepository.findById(2)
-//         .then(complaint => {
-//             postRepository.findMany([{ student_id: req.user.id },
-//             { complaint_id: complaint.id }], "=", "AND")
-//                 .then(chat => {
-//                     if (chat) {
-//                         for (let item of chat) {
-//                             if (item.user_type = 0) {
-//                                 item.by = "admin-reply"
-//                             } else {
-//                                 item.by = "student-reply"
-//                             }
-//                         }
-//                         res.render('chat/mycomplaint', {
-//                             chat,
-//                             complaint,
-//                         });
-//                     } else {
-//                         res.render('chat/mycomplaint', {
-//                             chat: false,
-//                             complaint
-//                         });
-//                     }
-//                 })
-//                 .catch(err => {
-//                     console.log(err);
-//                 })
-//         })
-//         .catch(err => {
-//             console.log(err);
-//         })
-
-// });
-
 router.get('/chat/:id', (req, res) => {
     let complaintId = req.params.id;
     let studentId = req.user.id;
@@ -177,7 +141,7 @@ router.get('/chat/:id', (req, res) => {
                         chat = formatChat(chat);
                     }
                     console.log(chat);
-                    res.render("chat/chats", {active:"student", complaint, chat});
+                    res.render("chat/chats", {active:"student", complaint, chat, uid: studentId, uType: 1});
                 })
                 .catch(err => {
                     console.log(err);

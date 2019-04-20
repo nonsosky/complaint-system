@@ -56,7 +56,7 @@ router.get('/chat/:id', (req, res) => {
                         chat = formatChat(chat);
                     }
                     //console.log(chat);
-                    res.render("chat/chats", { admin: true, active: "admin", complaint, chat, pageTitle:"Complaint System | Chatting" });
+                    res.render("chat/chats", { admin: true, active: "admin", complaint, chat, pageTitle:"Complaint System | Chatting", uType: 0 });
                 })
                 .catch(err => {
                     req.flash('error', 'Failed to retrieve chats');
@@ -71,8 +71,6 @@ router.get('/chat/:id', (req, res) => {
 
 
 router.post('/chat/', (req, res) => {
-    let nDate = new Date();
-    let createdAt = nDate.getFullYear() + '-' + (nDate.getMonth() + 1) + '-' + nDate.getDate();
 
     let newPost = {
         reply: req.body.reply,

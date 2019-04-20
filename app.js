@@ -4,14 +4,20 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const bodyParser = require("body-parser");
+const http = require('http');
+
 
 //load local files
 const connect = require("./server/db/db_connect");
+const {formatChat} = require('./server/helpers/formatter');
 
 //load routes
 const student = require('./routes/student');
 const admin = require('./routes/admin');
 const aboutus = require('./routes/aboutus');
+
+//-- Repositories
+const postRepository = require('./server/repository/PostRepos');
 
 
 //admin init
@@ -26,6 +32,38 @@ adminConfig()
 
 //express application
 const app = express();
+
+
+const server = http.createServer(app);
+const io = require('socket.io')(server);
+io.on("connection", (socket)=>{
+    socket.on("chat", (complaint)=>{
+        socket.join(complaint.id);
+
+        socket.on("newMessage", (message)=>{
+            //submit to db
+            postRepository.insert(message)
+                .then(post => {
+                    //-- retrieve
+                    postRepository.findJoin({ student: [{ column: 'lastName' }, { column: 'firstName' }], post: [{ column: 'createdAt' }, { column: 'reply' }, { column: 'complaint_id' }, { column: 'student_id' }, { column: 'user_type' }] }, { student: 'student_id' }, [{ table: 'post', column: 'student_id', value: post.student_id, operator: '=', nextOperator: 'AND' }, { table: 'post', column: 'complaint_id', value: post.complaint_id, operator: '=', nextOperator: 'AND'}, { table: 'post', column: 'id', value: post.id, operator: '=' }])
+                        .then(chat => {
+
+                            if (chat) {
+                                chat = formatChat(chat);
+                            }
+                            io.to(complaint.id).emit('message', chat[0]);
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        });
+                
+              })
+              .catch(err=>{
+                  console.log(err);
+              });
+        });
+    })
+});
 
 //setup public directory
 app.use(express.static(__dirname+'/public/'));
@@ -82,6 +120,6 @@ app.use('/admin/', admin);
 app.use('/aboutus/', aboutus);
 
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`server up on port ${port}`);
 });

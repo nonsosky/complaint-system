@@ -18,43 +18,40 @@
                 {{reply}}
               </p>
             </div>
-            </li>
-            {{/each}}
-      </ol>
-      <div class="chat__footer">
-        <form action="/{{active}}/chat" method="post" id="message-form">
-          <input name="reply" type="text" placeholder="Message" autofocus autocomplete="off" />
-          <input type="hidden" name="studentId" value="{{complaint.student_id}}" />
-          <input type="hidden" name="complaintId" value="{{complaint.id}}" />
-          <button type="submit" class="btn btn-primary" id="reply">Reply</button>
-          <a href="" class="btn btn-primary" id="reply">Refresh</a>
-        </form>
-      </div>
+          </li>
+          {{/each}}
+        </ol>
+        <div class="chat__footer">
+          <form action="/{{active}}/chat" method="post" id="message-form">
+            <input name="reply" type="text" placeholder="Message" autofocus autocomplete="off" id="reply" />
+            <input type="hidden" name="complaintId" value="{{complaint.id}}" />
+            <button type="submit" class="btn btn-primary" id="send">Reply</button>
+          </form>
+        </div>
       </div>
 
+
+      <!-- important ids -->
+      <input type="hidden" id="uid" value="{{complaint.student_id}}" />
+      <input type="hidden" id="uType" value="{{uType}}" />
 
     </div>
   </div>
+</div>
+
+<script type="mustache/template" id="message-tmpl">
+<li class="message">
+  <div class="message__title">
+    <h4>\{{userName}} </h4>
+    <span>\{{createdAt}}</span>
   </div>
-<script>
-  $(document).ready(function(){
-      function scrollToBottom() {
-      // Selectors
-      var messages = jQuery('#messages');
-      console.log(messages)
-      var newMessage = messages.children('li:last-child')
-      // Heights
-      var clientHeight = messages.prop('clientHeight');
-      var scrollTop = messages.prop('scrollTop');
-      var scrollHeight = messages.prop('scrollHeight');
-      var newMessageHeight = newMessage.innerHeight();
-      var lastMessageHeight = newMessage.prev().innerHeight();
-
-      if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
-        messages.scrollTop(scrollHeight);
-      }
-    }
-
-    scrollToBottom();
-  });
+  <div class="message__body">
+    <p>
+      \{{reply}}
+    </p>
+  </div>
+</li>
 </script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/libs/mustache.js"></script>
+<script src="/js/chat.js"></script>
