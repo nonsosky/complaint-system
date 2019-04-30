@@ -17,7 +17,6 @@ const {formatChat, formatDate} = require('../server/helpers/formatter');
 
 //complaints route
 router.post('/make/complaints', (req, res) => {
-
     let newComplaint = {
         complaint: req.body.complaints,
         student_id: req.user.id
@@ -27,6 +26,8 @@ router.post('/make/complaints', (req, res) => {
 
     complaintsRepository.insert(newComplaint)
         .then(complaint => {
+            var number = req.user.phone_no;
+            send({to: number, text: 'Your complaints have been received successfully'});
             req.flash('success', 'Complaint submitted successfully');
             res.redirect('/');
         }, err => {

@@ -71,7 +71,6 @@ router.get('/chat/:id', (req, res) => {
 
 
 router.post('/chat/', (req, res) => {
-
     let newPost = {
         reply: req.body.reply,
         complaint_id: req.body.complaintId,

@@ -5,7 +5,10 @@ const bcrypt = require('bcryptjs');
 const adminRepository = require('../repository/AdminRepos');
 //-- Load student repository
 const studentRepository = require('../repository/StudentRepos');
+const complaintsRepository = require('../repository/ComplaintsRepos');
 
+//Load send.js
+const send = require('../../third_party/send');
 
 module.exports = function (passport, User) {
   
@@ -22,6 +25,35 @@ module.exports = function (passport, User) {
           if(err) throw err;
 
           if(isMatch) {
+            if(user.user_type === 0){//-- is admin
+              let logPhoneNos = [];
+              complaintsRepository.findJoin(
+                {
+                  student: [
+                    {column: 'phone_no', alias: 'phoneNo'}
+                  ]
+                },
+                {
+                  student: 'student_id'
+                },
+                [
+                  {table: 'complaints', column:'status', value: '0', operator: '='}
+                ]
+              ).then(students=>{
+                for (let item of students){
+                  if(logPhoneNos.indexOf(item.phoneNo) === -1 && (item.phoneNo !== null)){
+                    let phoneNo = item.phoneNo;
+                    logPhoneNos.push(phoneNo);
+
+                    send({to: phoneNo, text: 'The Admin is currently online'});
+
+                  }
+                }
+              })
+              .catch(err=>{
+                console.log(err);
+              })
+            }
             return done(null, user, {message: 'Login Successfully'});
           } else {
             return done(null, false, {message: 'Password Incorrect'});
