@@ -54,6 +54,18 @@ body {
  background-color: #000;
 }
 
+.btn-full-sm {
+  background-color: #e7c60c;
+  border-radius: 50px;
+  transition: color 0.9s;
+}
+
+.btn-ghost-sm {
+  border: 2px solid #e7c60c;
+  background-color: inherit;
+  border-radius: 50px;
+}
+
 .dialog {
     position: absolute;   
     top: 100px;
@@ -321,7 +333,7 @@ button:disabled{
     bottom: -500px;
   }
   .footer * {
-    font-size: 100%;
+    font-size: 105%;
   }
 
 /* Addon */
@@ -332,13 +344,13 @@ button:disabled{
 }
 
 @media screen and (max-width: 1200px){
-    .hero-text .btn h3 * {
+    .hero-text h3 * {
       font-size: 20%;
     }
   }
   
    @media screen and (max-width: 980px){
-    .hero-text .btn{
+    .hero-text{
       font-size: 70%;
     }
   }
@@ -360,13 +372,13 @@ button:disabled{
   
   @media screen and (max-width: 617px){
     .hero-text {
-      font-size: 100%;
+      font-size: 110%;
     }
   }
   
   @media screen and (max-width: 545px){
     .hero-text h3{
-      font-size: 120%;
+      font-size: 115%;
       padding: 8px;
     }
   }
@@ -376,4 +388,10 @@ button:disabled{
       font-size: 110%;
     }
 } 
+
+@media screen and (max-width: 1200px){
+  .footer * {
+    font-size: 90%;
+  }
+}
   
