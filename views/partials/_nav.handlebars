@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-dark">
+<nav class="navbar navbar-expand-md navbar-dark top-nav">
     <!-- Brand -->
     <a class="navbar-brand" href="/">
         <img src="/img/imopoly_logo.png" class="logo" alt="imopoly">
@@ -13,12 +13,12 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/">HOME</a>
+                <a class="nav-link btn" href="/">HOME</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/aboutus/index">ABOUT</a>
+                <a class="nav-link btn" href="/aboutus/index">ABOUT</a>
             </li>
-
+            {{#if user}}
             {{#if user.user_type}}
             <li class="nav-item">
                 <a class="nav-link btn yellow mr-1" href="#" data-toggle="modal" data-target="#complaint">Make
@@ -36,13 +36,14 @@
                     <a href="/logout/" class="dropdown-item text-light">Logout</a>
                 </div>
             </li>
-            {{else if admin}}
-            <li class="nav-item">
+            {{else}}
+            <li class="nav-item mb-1">
                 <a class="nav-link btn yellow mr-1" href="/admin/">Dashboard</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item mb-1">
                 <a class="nav-link btn yellow mr-1" href="/logout">Logout</a>
             </li>
+            {{/if}}
             {{else}}
             <li class="nav-item">
                 <a class="nav-link" href="/student/signup">SIGNUP</a>
@@ -131,3 +132,5 @@
         </div>
     </div>
 </div>
+
+<div class="nav-bottom"></div>
