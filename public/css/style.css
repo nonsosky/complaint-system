@@ -373,6 +373,7 @@ button:disabled{
   @media screen and (max-width: 617px){
     .hero-text {
       font-size: 110%;
+      padding: 8px;
     }
   }
   
@@ -386,6 +387,7 @@ button:disabled{
   @media screen and (max-width: 425px){
     .hero-text h3{
       font-size: 110%;
+      padding: 8px;
     }
 } 
 
