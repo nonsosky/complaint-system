@@ -37,6 +37,9 @@ router.post('/make/complaints', (req, res) => {
         });
 });
 
+router.get('/signin', (req, res) => {
+    res.render('student/signin');
+});
 
 //Login student route 
 router.post('/signin', (req, res, next) => {
@@ -82,7 +85,7 @@ router.post('/signup', (req, res) => {
         .then(student => {
             if (student !== false) {
                 req.flash('error', 'Email already exist');
-                res.redirect('/');
+                res.redirect('/student/signup');
             }
             else {
                 bcrypt.genSalt(12, (err, salt) => {
@@ -95,16 +98,16 @@ router.post('/signup', (req, res) => {
                                     .then(info => {
                                         console.log(info)
                                         req.flash('success', 'successfully registered');
-                                        res.redirect('/');
+                                        res.redirect('/student/signin');
                                     }).catch(err => {
                                         console.log(err);
-                                        res.redirect('/')
-                                    })
+                                        res.redirect('/student/signin');
+                                    });
 
                             }, err => {
                                 console.log(err);
                                 req.flash('error', 'Unable to register user');
-                                res.redirect('/');
+                                res.redirect('/student/signup');
                             })
                     });
                 });
@@ -142,6 +145,8 @@ router.get('/chat/:id', (req, res) => {
                         chat = formatChat(chat);
                     }
                     console.log(chat);
+                    complaint.createdAt = formatDate(complaint.createdAt);
+                    
                     res.render("chat/chats", {active:"student", complaint, chat, uid: studentId, uType: 1});
                 })
                 .catch(err => {

@@ -21,9 +21,9 @@ function formatChat(chats) {
         }
 
         if (item.user_type === 1) {
-            item.by = "student-reply";
+            item.incoming = true;
         } else {
-            item.by = "admin-reply";
+            item.outgoing = true;
         }
     }
 

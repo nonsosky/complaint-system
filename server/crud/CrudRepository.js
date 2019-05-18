@@ -14,7 +14,7 @@ class CrudRepository{
     this.mapToDb = mapToDb || {};
   }
   execute (query, values){
-    values = values || '';
+    values = values || null;
     return new Promise((resolve, reject)=>{
       this.db()
           .then((conn)=>{

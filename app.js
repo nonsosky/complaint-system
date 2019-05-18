@@ -16,6 +16,7 @@ const student = require('./routes/student');
 const admin = require('./routes/admin');
 const aboutus = require('./routes/aboutus');
 
+
 //-- Repositories
 const postRepository = require('./server/repository/PostRepos');
 
@@ -118,6 +119,7 @@ app.get('/logout', (req, res) =>{
 app.use('/student', student);
 app.use('/admin/', admin);
 app.use('/aboutus/', aboutus);
+
 
 
 server.listen(port, () => {

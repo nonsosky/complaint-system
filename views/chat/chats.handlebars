@@ -1,57 +1,89 @@
-<div class="container">
-  <div class="row">
-    <div class="mt-1 col-md-7 mx-auto">
-      <div class="jumbotron card col-md-9 text-bg">
-        <p>{{complaint.complaint}}</p>
-      </div>
-
-      <div class="chat__main">
-        <ol id="messages" class="chat__messages">
-          {{#each chat}}
-          <li class="message">
-            <div class="message__title">
-              <h4>{{userName}} </h4>
-              <span>{{createdAt}}</span>
-            </div>
-            <div class="message__body">
-              <p>
-                {{reply}}
-              </p>
-            </div>
-          </li>
-          {{/each}}
-        </ol>
-        <div class="chat__footer">
-          <form action="/{{active}}/chat" method="post" id="message-form">
-            <input name="reply" type="text" placeholder="Message" autofocus autocomplete="off" id="reply" />
-            <input type="hidden" name="complaintId" value="{{complaint.id}}" />
-            <button type="submit" class="btn btn-primary" id="send">Reply</button>
-          </form>
-        </div>
-      </div>
+  
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-      <!-- important ids -->
-      <input type="hidden" id="uid" value="{{complaint.student_id}}" />
-      <input type="hidden" id="uType" value="{{uType}}" />
-
-    </div>
+<div class="complaint">
+<div class="messaging">
+  <div class="inbox_msg">
+	<div class="inbox_people">
+	  
+	  <div class="inbox_chat">
+		<div class="chat_list active_chat">
+		  <div class="chat_people">
+			<div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+			<div class="chat_ib">
+			  <h3>{{userName}}<span class="chat_date">{{complaint.createdAt}}</span></h3>
+			  <p>{{complaint.complaint}}</p>
+			</div>
+		  </div>
+		</div>
+		<div id="messages" class="scroll">
+		{{#each chat}}
+		{{#if incoming}}
+		<div class="incoming_msg">
+			<div class="incoming_msg_img">
+				 <img src="https://ptetutorials.com/images/user-profile.png" alt="profile avatar">
+			</div>
+		  <div class="received_msg">
+			<div class="received_withd_msg">
+			  <p>{{reply}}</p>
+			  <span class="time_date">{{userName}} {{createdAt}}</span></div>
+		  </div>
+		</div>
+		{{else if outgoing}}
+		<div class="outgoing_msg">
+		  <div class="sent_msg">
+				<p>{{reply}}</p>
+				<span class="time_date">{{userName}} {{createdAt}}</span> 
+			</div>
+		</div>
+		{{/if}}
+		{{/each}}
+		</div>
+		<div class="type_msg">
+			<form action="/{{active}}/chat" method="post" id="message-form" class="input_msg_write">
+				<input name="reply" type="text" placeholder="Message" autofocus autocomplete="off" id="reply" class="write_msg"/>
+				<input type="hidden" name="complaintId" value="{{complaint.id}}" />
+				<button type="submit" class="msg_send_btn" id="send">
+					<i class="fa fa-paper-plane" aria-hidden="true"></i>
+				</button>
+			</form>
+		</div>
+	</div>
+	</div>
   </div>
 </div>
 
-<script type="mustache/template" id="message-tmpl">
-<li class="message">
-  <div class="message__title">
-    <h4>\{{userName}} </h4>
-    <span>\{{createdAt}}</span>
-  </div>
-  <div class="message__body">
-    <p>
-      \{{reply}}
-    </p>
-  </div>
-</li>
+<!-- important ids -->
+<input type="hidden" id="uid" value="{{complaint.student_id}}" />
+<input type="hidden" id="uType" value="{{uType}}" />
+
+{{!-- </body>
+</html> --}}
+
+<!-- Chatting template -->
+<script type="mustache/template" id="message-tmpl-incoming">
+<div class="incoming_msg">
+	<div class="incoming_msg_img">
+			<img src="https://ptetutorials.com/images/user-profile.png" alt="profile avatar">
+	</div>
+	<div class="received_msg">
+	<div class="received_withd_msg">
+		<p>\{{reply}}</p>
+		<span class="time_date">\{{userName}} \{{createdAt}}</span></div>
+	</div>
+</div>
 </script>
+
+<script type="mustache/template" id="message-tmpl-outgoing">
+<div class="outgoing_msg">
+	<div class="sent_msg">
+		<p>\{{reply}}</p>
+		<span class="time_date">\{{userName}} \{{createdAt}}</span> 
+	</div>
+</div>
+</script>
+
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/libs/mustache.js"></script>
 <script src="/js/chat.js"></script>

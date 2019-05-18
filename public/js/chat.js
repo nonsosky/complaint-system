@@ -30,9 +30,15 @@ $(document).ready(function () {
 
     //-- message display it
     socket.on('message', function (text) {
-        var template = $("#message-tmpl").html();
-        console.log(template);
+        var template;
+        if(text.outgoing){
+            template = $('#message-tmpl-outgoing').html();
+        } else if(text.incoming) {
+            template = $('#message-tmpl-incoming').html();
+        }
+
         var html = Mustache.to_html(template, text);
+        console.log(html);
         messages.append(html);
         message.val('');
         scrollToBottom();
@@ -42,7 +48,7 @@ $(document).ready(function () {
         // Selectors
         var messages = jQuery('#messages');
         console.log(messages)
-        var newMessage = messages.children('li:last-child')
+        var newMessage = messages.children('div:last-child')
         // Heights
         var clientHeight = messages.prop('clientHeight');
         var scrollTop = messages.prop('scrollTop');
