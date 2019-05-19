@@ -146,7 +146,6 @@ router.get('/chat/:id', (req, res) => {
                     }
                     console.log(chat);
                     complaint.createdAt = formatDate(complaint.createdAt);
-                    
                     res.render("chat/chats", {active:"student", complaint, chat, uid: studentId, uType: 1});
                 })
                 .catch(err => {

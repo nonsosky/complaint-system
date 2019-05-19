@@ -8,7 +8,7 @@ const complaintRepository = require('../server/repository/ComplaintsRepos');
 const postRepository = require("../server/repository/PostRepos");
 const adminrepository = require('../server/repository/AdminRepos');
 const studentRepository = require('../server/repository/StudentRepos');
-const { formatChat } = require('../server/helpers/formatter');
+const { formatChat,formatDate } = require('../server/helpers/formatter');
 const { ensureAuthenticated } = require('../server/config/auth');
 
 // Load sendjs
@@ -55,6 +55,7 @@ router.get('/chat/:id', (req, res) => {
                     if (chat) {
                         chat = formatChat(chat);
                     }
+                    complaint.createdAt = formatDate(complaint.createdAt);
                     //console.log(chat);
                     res.render("chat/chats", { admin: true, active: "admin", complaint, chat, pageTitle:"Complaint System | Chatting", uType: 0 });
                 })
