@@ -5,6 +5,8 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const bodyParser = require("body-parser");
 const http = require('http');
+const hbs = require('handlebars');
+const moment = require('moment');
 
 
 //load local files
@@ -34,6 +36,10 @@ adminConfig()
 //express application
 const app = express();
 
+// setup handlebar helpers
+hbs.registerHelper('formatDate', function(date){
+    return moment(date).format('L');
+});
 
 const server = http.createServer(app);
 const io = require('socket.io')(server);
@@ -114,6 +120,7 @@ app.get('/logout', (req, res) =>{
     req.logout();
     res.redirect('/')
 })
+
 
 //Use routes
 app.use('/student', student);

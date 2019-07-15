@@ -1,0 +1,46 @@
+ <section class="col-md-8 mx-auto">
+<div class="card" id="profile">
+      <h3 class="card-header text-center text-dark bg-warning">Profile</h3>
+      <img class="card-img-top passport" src="{{pictureDir}}"/>
+      <div class="card-body">
+        <table class="table table-responsive table-no-border">
+          <tr>
+            <td>Matriculation Number</td>
+            <td><span class="badge bg-success text-dark text-left col-md-12">{{user.matric_no}}</span></td>
+          </tr>
+          <tr>
+            <td>Email Address</td>
+            <td><span class="badge bg-success text-dark text-left col-md-12">{{user.emailAddress}}</span></td>
+          </tr>
+          <tr>
+            <td>Firstname</td>
+            <td><span class="badge bg-success text-dark text-left col-md-12">{{user.firstName}}</span></td>
+          </tr>
+          <tr>
+            <td>Lastname</td>
+            <td><span class="badge bg-success text-dark text-left col-md-12">{{user.lastName}}</span></td>
+          </tr>
+          <tr>
+            <td>Middlename</td>
+            <td><span class="badge bg-success text-dark text-left col-md-12">{{user.middleName}}</span></td>
+          </tr>
+          <tr>
+            <td>Gender</td>
+            <td><span class="badge bg-success text-dark text-left col-md-12">{{user.gender}}</span></td>
+          </tr>
+          <tr>
+            <td>Date Of Birth</td>
+            <td><span class="badge bg-success text-dark text-left col-md-12">{{formatDate user.dob}}</span></td>
+          </tr>
+          <tr>
+            <td>Phone Number</td>
+            <td><span class="badge bg-success text-dark text-left col-md-12">{{user.phone_no}}</span></td>
+          </tr>
+        </table>
+      </div>
+      <div class="card-footer text-right">
+        <a class="btn btn-warning" href="/student/changepsw">Change Password</a>
+        <a class="btn btn-warning" href="/student/editprofile">Edit Profile</a>
+      </div>
+    </div>
+</section>

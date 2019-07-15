@@ -41,6 +41,23 @@ router.get('/signin', (req, res) => {
     res.render('student/signin');
 });
 
+
+ //View profile
+ router.get('/index', (req, res) => {
+     res.render('student/index');
+});
+
+//Password Reset
+router.get('/reset', (req, res) => {
+    res.render('student/reset');
+});
+
+//change password
+router.get('/changepsw', (req, res) => {
+    res.render('student/changepsw');
+});
+
+
 //Login student route 
 router.post('/signin', (req, res, next) => {
     require("../server/config/passport")(passport, studentrepository);

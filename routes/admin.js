@@ -147,6 +147,37 @@ router.get('/complaint/resolve/:cid', (req, res)=>{
 
 });
 
+router.get("/resolved/complaints/", (req, res) => {
+    complaintRepository.findJoin({ 
+        student: [
+            { column: "lastName" }, 
+            { column: "firstName" }
+        ], 
+        complaints: [
+            { column: "complaint" }, 
+            { column: "status" }, 
+            { column: 'id' }
+        ] },
+        { student: "student_id" },
+        [
+            {table: "complaints", column: "status", value: 1, operator: "="}
+        ]
+        )
+        .then(resolvedComplaints => {
+            res.render('admin/index', 
+                { 
+                    admin: true,
+                    resolvedComplaints
+                }
+            );
+        })
+        .catch(err => {
+            console.log(err);
+            req.flash('error', 'Sorry an error occured.');
+            res.redirect('/');
+        });
+});
+
 router.get('/view/chat/:id', ensureAuthenticated, (req, res) => {
     let complaintId = req.params.id;
     //let adminId = req.user.id;

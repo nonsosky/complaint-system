@@ -159,7 +159,7 @@ font-size: 120%;
     padding-bottom: 200px;
 }
 .panel {
-    background-color: rgb(205, 240, 148);
+    background-color: rgb(222, 226, 215);
     padding: 5px;
     margin: 2px;
     border-radius: 5px;
@@ -682,7 +682,7 @@ overflow-y: auto;
     }
 }
 
-@media screen and (max-width: 575px){
+ @media screen and (max-width: 575px){
   .chat_ib p {
     display: inline-block;
     padding-right: 160%;
@@ -690,5 +690,34 @@ overflow-y: auto;
     }
 }
 
-  
-  
+
+.active-user {
+  color: rgb(188, 255, 5);
+  padding: 5px;
+}
+
+.active-user:hover{
+  color: rgb(188, 255, 5);
+}
+
+.sidebar{
+  background-color: #0f2502;
+}
+
+.light-gray{
+  background-color: #f3ecec;
+}
+
+#profile {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid #0f2502;
+  border-radius: 0.25rem;
+}
