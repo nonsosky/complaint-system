@@ -57,6 +57,11 @@ router.get('/changepsw', (req, res) => {
     res.render('student/changepsw');
 });
 
+//Edit Profile
+router.get('/editprofile', (req, res) => {
+    res.render('student/editprofile');
+});
+
 
 //Login student route 
 router.post('/signin', (req, res, next) => {
