@@ -77,16 +77,16 @@ CREATE TABLE `post` (
 );
 
 
- -- INSERT INTO `department` (`dept_name`) 
- -- VALUES("computer science"), ("public administration"), ("science laboratory tech"), ("estate management"), ("maths & statistics"), ("food science"), ("chemical engineering"), ("banking & finance");
+INSERT INTO `department` (`dept_name`) 
+VALUES("computer science"), ("public administration"), ("science laboratory tech"), ("estate management"), ("maths & statistics"), ("food science"), ("chemical engineering"), ("banking & finance");
 
 INSERT INTO `student` (`lastName`, `firstName`, `middleName`, `gender`, `emailAddress`, `password`, `dob`, `matric_no`, `phone_no`, `pictureDir`, `dept_id`) 
-VALUES("okpara", "kenneth", "chinonso", "male", "nonsoskyokpara@gmail.com", "nonsosky", "1995-07-06", "2017/HND/CST/76849","7034335819", "", 1),
+VALUES("okpara", "kenneth", "chinonso", "male", "nonsoskyokpara@gmail.com", "nonsosky", "1995-07-06", "2017/HND/CST/76849","7034335819", "",  1),
 	("Iwuji", "Jude", "U.", "male", "jude@gmail.com", "00000", "1995-07-06", "2017/HND/CST/77102", "7034335819", "", 1);
 
 -- Store admin data into DB
--- INSERT INTO `admin` (`emailAddress`,`password`)
--- VALUES ('nonsosky@gmail.com',00000);
+INSERT INTO `admin` (`emailAddress`,`password`)
+VALUES ('nonsosky@gmail.com',00000);
 
 -- Store complaint data into DB
 -- INSERT INTO `complaints` (`student_id`, `complaint`)

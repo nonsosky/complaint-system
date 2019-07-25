@@ -97,7 +97,7 @@ router.post('/signup', (req, res) => {
         emailAddress: req.body.email,
         password: req.body.password,
         dob: req.body.dob,
-        phone_no: "234"+req.body.telNo,
+        phone_no: "234"+req.body.phoneNo,
         matric_no: req.body.matric,
     }
     console.log(newStudent);
