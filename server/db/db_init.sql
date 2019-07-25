@@ -2,13 +2,15 @@ DROP DATABASE IF EXISTS `complaint-system`;
 
 CREATE DATABASE `complaint-system`;
 
--- USE heroku_c97954ee1bcdfbd;
+USE heroku_c97954ee1bcdfbd;
 
--- drop table `post`;
--- drop table `admin`;
--- drop table `complaints`;
--- drop table `student`;
--- drop table `department`;
+select * from post; 
+
+drop table `post`;
+drop table `admin`;
+drop table `complaints`;
+drop table `student`;
+drop table `department`;
 
 CREATE TABLE `department` (
     `id`   INT(3) AUTO_INCREMENT,
@@ -72,28 +74,28 @@ CREATE TABLE `post` (
     CONSTRAINT `post_complaints_FK` FOREIGN KEY (`complaint_id`) REFERENCES `complaints` (`id`),
     CONSTRAINT `post_student_FK` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`),
     CONSTRAINT `post_admin_FK` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`id`)
-)Engine=InnoDB;
+);
 
 
-INSERT INTO `department` (`dept_name`) 
-VALUES("computer science"), ("public administration");
+ -- INSERT INTO `department` (`dept_name`) 
+ -- VALUES("computer science"), ("public administration"), ("science laboratory tech"), ("estate management"), ("maths & statistics"), ("food science"), ("chemical engineering"), ("banking & finance");
 
-INSERT INTO `student` (`lastName`, `firstName`, `middleName`, `gender`, `emailAddress`, `password`, `dob`, `matric_no`, `pictureDir`, `dept_id`) 
-VALUES("okpara", "kenneth", "chinonso", "male", "nonsoskyokpara@gmail.com", "nonsosky", "1995-07-06", "2017/HND/CST/76849", "", 1),
-     ("Iwuji", "Jude", "U.", "male", "jude@gmail.com", "00000", "1995-07-06", "2017/HND/CST/77102", "", 1);
+INSERT INTO `student` (`lastName`, `firstName`, `middleName`, `gender`, `emailAddress`, `password`, `dob`, `matric_no`, `phone_no`, `pictureDir`, `dept_id`) 
+VALUES("okpara", "kenneth", "chinonso", "male", "nonsoskyokpara@gmail.com", "nonsosky", "1995-07-06", "2017/HND/CST/76849","7034335819", "", 1),
+	("Iwuji", "Jude", "U.", "male", "jude@gmail.com", "00000", "1995-07-06", "2017/HND/CST/77102", "7034335819", "", 1);
 
 -- Store admin data into DB
 -- INSERT INTO `admin` (`emailAddress`,`password`)
 -- VALUES ('nonsosky@gmail.com',00000);
 
 -- Store complaint data into DB
-INSERT INTO `complaints` (`student_id`, `complaint`)
-VALUES (1, "Cult threat"),
-       (2, "Handout over payment");
+-- INSERT INTO `complaints` (`student_id`, `complaint`)
+-- VALUES (1, "Cult threat"),
+      -- (2, "Handout over payment");
 
 -- Store post data into db
 -- Note user_type = 0 (admin) user_type = 1 (student)
-INSERT INTO `post` (`student_id`, `reply`, `complaint_id`, `user_type`)
-VALUES (1, "Is it around school premises?", 1, 0),
-       (1, "Yes", 1, 1);
+-- INSERT INTO `post` (`student_id`, `reply`, `complaint_id`, `user_type`)
+-- VALUES (1, "Is it around school premises?", 1, 0),
+      -- (1, "Yes", 1, 1);
 
