@@ -619,6 +619,7 @@ overflow-y: auto;
     }
   }
   
+
   @media screen and (max-width: 680px){
     .hero-text {
       width: 80%;
@@ -766,4 +767,8 @@ h3 {
   position: fixed;
   width: 100%;
   z-index: 10000;
+}
+
+.modal {
+  margin-top: 89px;
 }
