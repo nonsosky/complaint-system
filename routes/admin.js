@@ -44,7 +44,7 @@ router.post('/signin/', (req, res, next) => {
 });
 
 //-- Admin chat panel
-router.get('/chat/:id', (req, res) => {
+router.get('/chat/:id', ensureAuthenticated, (req, res) => {
     let complaintId = req.params.id;
     //let adminId = req.user.id;
 
@@ -71,7 +71,7 @@ router.get('/chat/:id', (req, res) => {
 });
 
 
-router.post('/chat/', (req, res) => {
+router.post('/chat/', ensureAuthenticated, (req, res) => {
     let newPost = {
         reply: req.body.reply,
         complaint_id: req.body.complaintId,
@@ -108,7 +108,7 @@ router.get('/todays/complaints/', ensureAuthenticated, (req, res) => {
         });
 });
 
-router.get('/complaint/resolve/:cid', (req, res)=>{
+router.get('/complaint/resolve/:cid', ensureAuthenticated, (req, res)=>{
     let cid = req.params.cid;
     let host = req.hostname;
     let port = req.socket.localPort;
@@ -147,7 +147,7 @@ router.get('/complaint/resolve/:cid', (req, res)=>{
 
 });
 
-router.get("/resolved/complaints/", (req, res) => {
+router.get("/resolved/complaints/", ensureAuthenticated, (req, res) => {
     complaintRepository.findJoin({ 
         student: [
             { column: "lastName" }, 

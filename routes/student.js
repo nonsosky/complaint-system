@@ -182,7 +182,7 @@ router.get('/chat/:id', (req, res) => {
         });
 });
 
-router.post('/chat/', (req, res) => {
+router.post('/chat/', ensureAuthenticated, (req, res) => {
     
     //console.log(createdAt)
     let newPost = {
