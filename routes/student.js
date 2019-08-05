@@ -43,23 +43,13 @@ router.get('/signin', (req, res) => {
 
 
  //View profile
- router.get('/index', (req, res) => {
+ router.get('/index', ensureAuthenticated, (req, res) => {
      res.render('student/index');
 });
 
 //Password Reset
 router.get('/reset', (req, res) => {
     res.render('student/reset');
-});
-
-//change password
-router.get('/changepsw', (req, res) => {
-    res.render('student/changepsw');
-});
-
-//Edit Profile
-router.get('/editprofile', (req, res) => {
-    res.render('student/editprofile');
 });
 
 
